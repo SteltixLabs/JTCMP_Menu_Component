@@ -1,0 +1,31 @@
+{
+	"menu_component": {
+		"items": [
+{
+			"element": "Departments",
+			"route": "/?",
+			"disable": "oj-disabled"
+		},
+		{
+			"element": "Dashboard",
+			"route": "?root=dashboard#dashboard",
+			"disable": "oj-disabled"
+				},
+		{
+			"element": "Incidents",
+			"route": "?root=incidents#incidents",
+			"disable": "oj-disabled"
+				},
+		{
+			"element": "Customers",
+			"route": "?root=customers#customers",
+			"disable": "oj-disabled"
+				},
+		{
+			"element": "About",
+			"route": "?root=about#about",
+			"disable": "null"
+		}
+		]
+	}
+}

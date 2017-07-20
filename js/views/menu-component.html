@@ -1,0 +1,25 @@
+	<div id='menubutton-container'>
+
+		<button id="menuButton" data-bind="ojComponent: {component: 'ojButton', label: 'Menu', 
+                                   menu: '#myMenu'}">
+  </button>
+
+		<!-- To handle menu item selection, use a select listener as shown, not a click listener. -->
+		<br>
+		<br>
+		<ul id="myMenu" style="display:none" data-bind="ojComponent: {component: 'ojMenu', 
+				 selection: currentSelection,
+				 select: menuItemSelect}">
+			<!-- ko foreach: dataItems -->
+			<li id="iconFont1" data-bind="attr: {class: disable}">
+				<a data-bind="text: element, attr: {href: route}">
+					<span></span>
+				</a>
+			</li>
+			<!-- /ko -->
+		</ul>
+
+		<br>
+		<br>
+	</div>
+</div>
