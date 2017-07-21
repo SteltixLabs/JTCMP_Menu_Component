@@ -10,76 +10,65 @@ define(['knockout'],
 
 			self.currentState = ko.observable("not connected");
 			
-			//uses current data to structure the menu
-			var menuItems = [
-				{
-					element: 'Departments',
-					route: '/?',
-					disable: 'oj-disabled'
-				},
-				{
-					element: 'Dashboard',
-					route: '?root=dashboard#dashboard',
-					disable: 'oj-disabled'
-				},
-				{
-					element: 'Incidents',
-					route: '?root=incidents#incidents',
-					disable: 'oj-disabled'
-				},
-				{
-					element: 'Customers',
-					route: '?root=customers#customers',
-					disable: 'oj-disabled'
-				},
-				{
-					element: 'About',
-					route: '?root=about#about',
-					disable: 'oj-disabled'
+			self.dataItems = ko.observableArray([]);
+			
+			var menu = [];
+			
+			context.props.then( function(properties){
+				if (properties.menuitems) {
+					menu.push({
+						items: properties.menuitems
+					});
 				}
-		 ];
+	
+				//build menu
+				self.dataItems(menu[0].items);
+			});
 
+			var event = new CustomEvent('loggedIn', {detail: {deviceName: 'value', nextRoute: 'about'}});
+			
 			//Listen for event
 			document.addEventListener('loggedIn', function(e) {
+				let currentRoute = e.detail.nextRoute;
+				
 				//store the route
-				let route = e.detail.route;
+				let route = '?root='+currentRoute+'#'+currentRoute;
+				
 				//call the checkState event
 				//pass in a connected parameter
 				checkState('connected');
+				
 				//log 
 				console.log('rerouting...');
-				//open the route in current window
-				window.location.replace(route);
-			}, false);
-						
-			///Check the sate of the app
-			////if the user is logged in
-			///alters the menu accordingly
-			var state = self.currentState();
-
-			function checkState(state) {
-				console.log('checking state...');
 				
-				if (state === 'connected') {
-					for (var i = 0; i < menuItems.length; i++) {
-						menuItems[i].disable = null;
-					}
-				}
-			}
-
-			//call function that checks the state
-			checkState(state);
-
+				//open the route in current window
+				//call function that checks the state
+				//window.location.replace(route);
+			}, false);
+			
+			document.dispatchEvent(event);
+			
 			////////build the menu/////
 			function buildMenu(menuArray) {
 				console.log('updating menu..');
-
-				self.dataItems = ko.observableArray(menuItems);
+				self.dataItems(menuArray);
 			}
-
-			//call function that builds the menu
-			buildMenu(menuItems);
-
+				
+			function checkState(state) {
+				console.log('checking state...');
+				let newMenu = [];
+				
+				if (state === 'connected') {
+					for (var i = 0; i < menu.length; i++) {
+						newMenu.push(menu[0].items);
+						newMenu.disable = null;
+					}
+				}
+				
+				//console.log(newMenu);
+				buildMenu(newMenu);
+			}
+			
 			self.menuItemSelect = function (event, ui) {
 				self.selectedMenuItem(ui.item.children('a')[0].getAttribute('href'));
 

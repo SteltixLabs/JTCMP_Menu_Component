@@ -3,11 +3,8 @@
     "description": "Example component for Oracle JET",
     "version": "1.0.0",
     "properties":  {
-        "example": {
+        "menuitems": {
             "type": "object"
-        },
-        "sample": {
-            "type": "string"
         }
     }
 }
